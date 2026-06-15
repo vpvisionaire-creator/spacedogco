@@ -1,0 +1,42 @@
+---
+import { SOCIAL } from "../data/site.js";
+---
+<footer class="footer">
+  <div class="footer-top wrap">
+    <div>
+      <div class="footer-mark">SPACEDOG</div>
+      <p class="footer-tag">Exploring the universe, one frame at a time.</p>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:hello@spacedog.co" class="footer-email">hello@spacedog.co</a>
+      <div class="footer-social">
+        {SOCIAL.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.label}</a>)}
+      </div>
+    </div>
+  </div>
+  <div class="footer-rule wrap"></div>
+  <div class="footer-bottom wrap">
+    <span class="mono">© Spacedog Inc. All Rights Reserved.</span>
+    <span class="mono">SPCDG / SYS-02 / NYC</span>
+  </div>
+</footer>
+
+<style>
+  .footer { padding: var(--space-xl) var(--gutter) var(--space-lg); border-top: 1px solid var(--color-gray); }
+  .footer-top { display: flex; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap; }
+  .footer-mark { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: 0.04em; }
+  .footer-tag { color: var(--color-offwhite); font-size: 14px; margin-top: 8px; }
+  .footer-links { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+  .footer-email { font-family: var(--font-display); font-weight: 700; font-size: clamp(18px, 3vw, 28px); }
+  .footer-email:hover { color: var(--color-purple); }
+  .footer-social { display: flex; gap: 18px; }
+  .footer-social a { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .footer-social a:hover { color: var(--color-purple); }
+  .footer-rule { height: 1px; background: var(--color-purple); margin-block: var(--space-lg); }
+  .footer-bottom { display: flex; justify-content: space-between; color: var(--color-gray); }
+  .footer-bottom .mono { color: var(--color-gray); }
+  @media (max-width: 640px) {
+    .footer-links { align-items: flex-start; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+</style>

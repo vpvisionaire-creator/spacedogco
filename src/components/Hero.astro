@@ -1,0 +1,72 @@
+---
+// Section 01 — Hero. Cinematic space-station opening.
+---
+<section class="hero" data-hero>
+  <div class="hud-corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+  <span class="hud-coord top mono">LAT 40.7128° N</span>
+  <span class="hud-coord top-right mono">LON 74.0060° W</span>
+
+  <!-- BG: replace with showreel. Poster shown until loaded. -->
+  <video class="hero-video" autoplay muted loop playsinline preload="none"
+         poster="/media/hero-poster.svg" aria-hidden="true">
+    <source src="/media/hero-reel.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content wrap">
+    <span class="mono mission-id" data-hero-item>SPCDG / MISSION-BAY / SYS-02</span>
+    <h1 class="display hero-title" data-hero-item>
+      The Swiss Army knife<br/>of the creative space.
+    </h1>
+    <p class="mono hero-sub" data-hero-item>NYC Based Creative Production Agency</p>
+    <a href="/contact" class="btn btn--solid hero-cta" data-hero-item>Start a Project</a>
+  </div>
+
+  <!-- Red toolbox cue — the object that triggers the next section -->
+  <a href="#toolkit-section" class="hero-toolbox" data-hero-item aria-label="Open the toolkit">
+    <svg viewBox="0 0 80 60" width="64" height="48" aria-hidden="true">
+      <rect x="6" y="22" width="68" height="34" rx="3" fill="#b3261e" stroke="#0A0908" stroke-width="2"/>
+      <rect x="6" y="22" width="68" height="9" fill="#8e1d17"/>
+      <path d="M26 22 v-6 a4 4 0 0 1 4 -4 h20 a4 4 0 0 1 4 4 v6" fill="none" stroke="#b3261e" stroke-width="5"/>
+      <rect x="34" y="34" width="12" height="6" rx="1" fill="#0A0908"/>
+    </svg>
+    <span class="mono">Open the toolkit</span>
+  </a>
+
+  <span class="hero-scroll mono" data-scroll-hint>SCROLL ↓</span>
+</section>
+
+<style>
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    padding: var(--nav-h) var(--gutter) var(--space-lg);
+    overflow: hidden;
+  }
+  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top, rgba(10,9,8,0.95) 0%, rgba(10,9,8,0.4) 60%, rgba(10,9,8,0.7) 100%);
+  }
+  .hero-content { position: relative; z-index: 3; max-width: 1000px; }
+  .hero-title { margin: 18px 0 22px; }
+  .hero-sub { color: var(--color-offwhite); margin-bottom: var(--space-md); }
+  .hero-cta { margin-top: 8px; }
+
+  .hero-toolbox {
+    position: absolute; z-index: 3; right: var(--gutter); bottom: 12%;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--color-offwhite);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .hero-toolbox:hover { transform: translateY(-4px); }
+  .hero-toolbox .mono { font-size: 10px; }
+
+  .hero-scroll {
+    position: absolute; z-index: 3; left: 50%; bottom: 24px; transform: translateX(-50%);
+    color: var(--color-offwhite); font-size: 10px;
+  }
+  @media (max-width: 768px) {
+    .hero-toolbox { bottom: 8%; right: 50%; transform: translateX(50%); }
+  }
+</style>

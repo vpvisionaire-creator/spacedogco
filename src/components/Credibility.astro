@@ -1,0 +1,30 @@
+---
+// Section 07 — Credibility. Real references only. Text labels = replace
+// with white logo files when available (mark as placeholders).
+import { CLIENTS } from "../data/site.js";
+---
+<section class="section credibility">
+  <div class="wrap">
+    <div class="section-label">Trusted Across The Culture</div>
+    <ul class="cred-grid" data-reveal>
+      {CLIENTS.map((c) => (
+        <li class="cred-item" data-placeholder-logo>{c}</li>
+      ))}
+    </ul>
+    <p class="cred-note mono">Real client references — replace text with white logo files.</p>
+  </div>
+</section>
+
+<style>
+  .cred-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg) var(--space-md); align-items: center;
+  }
+  .cred-item {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(16px, 2vw, 22px);
+    color: var(--color-offwhite); text-align: center; opacity: 0.85;
+    letter-spacing: 0.02em;
+  }
+  .cred-note { color: var(--color-gray); margin-top: var(--space-lg); font-size: 10px; }
+  @media (max-width: 700px) { .cred-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

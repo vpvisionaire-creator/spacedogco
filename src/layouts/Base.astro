@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const {
+  title = "Spacedog — The Swiss Army knife of the creative space.",
+  description = "NYC based creative production agency. Branding, campaigns, commercials, music videos, and more. One toolkit. A lot of ground covered.",
+  current = "",
+  ogImage = "/media/og.svg",
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>document.documentElement.classList.remove("no-js");</script>
+    <!--
+      FONTS: drop licensed Monument Extended (or Neue Haas Grotesk Display)
+      .woff2 files into /public/fonts and declare @font-face here. Until then
+      the stack falls back to Arial Black / system bold grotesque. See ASSETS.md.
+    -->
+  </head>
+  <body>
+    <Nav current={current} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import "../scripts/motion.js";
+    </script>
+  </body>
+</html>

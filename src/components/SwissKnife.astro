@@ -1,0 +1,160 @@
+---
+// SwissKnife.astro — SIGNATURE OBJECT
+// Layered SVG. Every blade is drawn CLOSED (folded right along the handle
+// axis from the hinge). GSAP rotates each by its `data-angle` to fan them
+// into the reference layout: branding top, commercials right, docu lower,
+// interview back-left. Branded to Spacedog — purple handle + dog mark.
+import { BLADES } from "../data/site.js";
+
+// Open angles (deg) from closed-right position. Negative = fan upward.
+const ANGLE = {
+  branding: -110, social: -86, campaigns: -58, commercials: -4,
+  music: 26, editorial: 70, docu: 112, interview: 180,
+};
+const HINGE_R = "620px 300px";
+const HINGE_L = "380px 300px";
+---
+
+<div class="knife" id="knife" role="img"
+     aria-label="The Spacedog Swiss Army knife — eight capabilities, one tool.">
+
+  <svg class="knife-svg" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg"
+       preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs>
+      <linearGradient id="handleGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7d5fd0"/>
+        <stop offset="50%" stop-color="#6B4FBB"/>
+        <stop offset="100%" stop-color="#4A3485"/>
+      </linearGradient>
+      <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#D8D6D2"/>
+        <stop offset="100%" stop-color="#9a9994"/>
+      </linearGradient>
+      <filter id="bladeGlow" x="-60%" y="-60%" width="220%" height="220%">
+        <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#6B4FBB" flood-opacity="0.9"/>
+      </filter>
+    </defs>
+
+    <!-- HUD radar rings -->
+    <g class="knife-rings" stroke="var(--color-gray)" fill="none" stroke-width="1">
+      <circle cx="500" cy="300" r="90"/>
+      <circle cx="500" cy="300" r="150"/>
+      <circle cx="500" cy="300" r="220"/>
+      <circle cx="500" cy="300" r="285"/>
+      <line x1="500" y1="15" x2="500" y2="585"/>
+      <line x1="200" y1="300" x2="800" y2="300"/>
+    </g>
+
+    <!-- Branding (scissor blade) -->
+    <g class="blade" data-blade="branding" data-angle={ANGLE.branding} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 292 L840 296 L856 300 L840 304 L620 308 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+      <circle cx="675" cy="300" r="9" fill="none" stroke="#0A0908" stroke-width="3"/>
+    </g>
+
+    <!-- Social + Live Experiential (slim) -->
+    <g class="blade" data-blade="social" data-angle={ANGLE.social} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 294 L846 298 L860 300 L846 302 L620 306 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+    </g>
+
+    <!-- Brand Campaigns (file/rasp) -->
+    <g class="blade" data-blade="campaigns" data-angle={ANGLE.campaigns} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 290 L850 295 L864 300 L850 305 L620 310 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+      <g stroke="#0A0908" stroke-width="2">
+        <line x1="700" y1="294" x2="700" y2="306"/><line x1="730" y1="294" x2="730" y2="306"/>
+        <line x1="760" y1="294" x2="760" y2="306"/><line x1="790" y1="294" x2="790" y2="306"/>
+      </g>
+    </g>
+
+    <!-- Commercials (main blade) -->
+    <g class="blade" data-blade="commercials" data-angle={ANGLE.commercials} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 290 L840 294 L872 300 L840 306 L620 310 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+    </g>
+
+    <!-- Music Videos (saw) -->
+    <g class="blade" data-blade="music" data-angle={ANGLE.music} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 292 L845 296 L858 300 L845 308 L620 308 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+      <path d="M700 292 l6 -6 6 6 l6 -6 6 6 l6 -6 6 6 l6 -6 6 6 l6 -6 6 6" fill="none" stroke="#0A0908" stroke-width="2"/>
+    </g>
+
+    <!-- Editorial (corkscrew) -->
+    <g class="blade" data-blade="editorial" data-angle={ANGLE.editorial} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 300 H700 q20 0 18 18 q-2 16 -18 14 q-14 -2 -10 -16 q3 -10 14 -8"
+            fill="none" stroke="url(#bladeGrad)" stroke-width="9" stroke-linecap="round"/>
+    </g>
+
+    <!-- Docu-Style (slim angled) -->
+    <g class="blade" data-blade="docu" data-angle={ANGLE.docu} style={`transform-origin:${HINGE_R}`}>
+      <path d="M620 294 L838 298 L852 300 L838 302 L620 306 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+    </g>
+
+    <!-- Interview + In-House (back tool, hinged LEFT, points left) -->
+    <g class="blade" data-blade="interview" data-angle={ANGLE.interview} style={`transform-origin:${HINGE_L}`}>
+      <path d="M380 294 L600 298 L614 300 L600 302 L380 306 Z" fill="url(#bladeGrad)" stroke="#0A0908" stroke-width="3"/>
+      <path d="M600 298 q18 -4 24 4 q4 10 -10 8" fill="none" stroke="#0A0908" stroke-width="3"/>
+    </g>
+
+    <!-- HANDLE over hinge -->
+    <g class="knife-handle">
+      <rect x="350" y="248" width="320" height="104" rx="52" fill="url(#handleGrad)" stroke="#3a2a6b" stroke-width="4"/>
+      <g fill="#4A3485" opacity="0.5">
+        <circle cx="400" cy="278" r="3"/><circle cx="430" cy="322" r="2"/>
+        <circle cx="595" cy="285" r="2.5"/><circle cx="628" cy="320" r="2"/>
+      </g>
+      <g class="dog-mark">
+        <circle cx="500" cy="300" r="30" fill="#0A0908" stroke="#E8E2F8" stroke-width="2"/>
+        <text x="500" y="284" text-anchor="middle" font-family="Courier New, monospace" font-size="7" fill="#E8E2F8" letter-spacing="1">SPCDG</text>
+        <path d="M488 308 q4 -11 12 -11 q8 0 12 11 q-2 6 -12 6 q-10 0 -12 -6 z" fill="#E8E2F8"/>
+        <circle cx="494" cy="305" r="1.6" fill="#0A0908"/>
+        <circle cx="506" cy="305" r="1.6" fill="#0A0908"/>
+        <path d="M488 299 l-5 -7 m29 7 l5 -7" stroke="#E8E2F8" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+    </g>
+  </svg>
+
+  <!-- HUD capability labels -->
+  <div class="knife-labels">
+    {BLADES.map((b, i) => (
+      <div class={`klabel klabel--${b.id}`} data-label={b.id}>
+        <span class="klabel-id mono mission-id">CAP-{String(i + 1).padStart(2, "0")}</span>
+        <span class="klabel-name">{b.name}</span>
+        <span class="klabel-tip">{b.tip}</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .knife { position: relative; width: 100%; max-width: 920px; margin-inline: auto; aspect-ratio: 5 / 3; }
+  .knife-svg { width: 100%; height: 100%; overflow: visible; }
+
+  .blade { transform: rotate(0deg) scale(0.06); transform-box: view-box; opacity: 0; will-change: transform, opacity; }
+  .blade.is-active { filter: url(#bladeGlow); }
+  .knife-rings { opacity: 0.5; }
+  .dog-mark { transform-box: view-box; transform-origin: 500px 300px; }
+
+  .knife-labels { position: absolute; inset: 0; pointer-events: none; }
+  .klabel {
+    position: absolute; pointer-events: auto; opacity: 0; transform: translateY(6px);
+    display: flex; flex-direction: column; gap: 3px; max-width: 180px;
+    transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+  }
+  .klabel.is-in { opacity: 1; transform: none; }
+  .klabel-name { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-white); line-height: 1.25; }
+  .klabel-tip { font-size: 12px; color: var(--color-offwhite); opacity: 0; max-height: 0; transition: opacity var(--dur-fast) var(--ease-out); }
+  .klabel:hover .klabel-tip, .klabel.is-active .klabel-tip { opacity: 0.85; max-height: 80px; }
+
+  .klabel--branding    { top: 2%;  left: 30%; }
+  .klabel--social      { top: 8%;  right: 16%; text-align: right; align-items: flex-end; }
+  .klabel--campaigns   { top: 22%; right: 2%;  text-align: right; align-items: flex-end; }
+  .klabel--commercials { top: 48%; right: 0%;  text-align: right; align-items: flex-end; }
+  .klabel--music       { top: 70%; right: 8%;  text-align: right; align-items: flex-end; }
+  .klabel--editorial   { bottom: 2%; right: 30%; text-align: right; align-items: flex-end; }
+  .klabel--docu        { bottom: 6%; left: 28%; }
+  .klabel--interview   { top: 50%; left: 0%; }
+
+  @media (max-width: 768px) {
+    .knife { max-width: 560px; }
+    .klabel { max-width: 110px; }
+    .klabel-tip { display: none; }
+  }
+</style>

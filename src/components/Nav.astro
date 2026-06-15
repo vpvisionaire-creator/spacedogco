@@ -1,0 +1,88 @@
+---
+import { NAV } from "../data/site.js";
+const { current = "" } = Astro.props;
+---
+<nav class="nav" data-nav>
+  <div class="nav-inner wrap">
+    <a class="nav-mark" href="/">SPACEDOG</a>
+    <div class="nav-links">
+      {NAV.map((item) => (
+        <a href={item.href}
+           class={`nav-link ${current === item.href ? "is-active" : ""}`}>
+          {item.label}
+        </a>
+      ))}
+      <a href="/contact" class="nav-cta">Start a Project</a>
+    </div>
+    <button class="nav-burger" aria-label="Open menu" data-burger>
+      <span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-overlay" data-overlay>
+    {NAV.map((item) => <a href={item.href} class="nav-overlay-link">{item.label}</a>)}
+    <a href="/contact" class="nav-overlay-link">Start a Project</a>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: transparent;
+    transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.is-solid { background: var(--color-bg); border-bottom-color: var(--color-gray); }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: var(--nav-h); padding-inline: var(--gutter);
+  }
+  .nav-mark {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 16px; letter-spacing: 0.04em;
+  }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-link {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    position: relative; padding-bottom: 4px;
+  }
+  .nav-link::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 0;
+    background: var(--color-purple); transition: width var(--dur-fast) var(--ease-out);
+  }
+  .nav-link:hover::after, .nav-link.is-active::after { width: 100%; }
+  .nav-cta {
+    font-family: var(--font-display); font-weight: 700; font-size: 12px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    border: 1px solid var(--color-purple); padding: 9px 16px;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .nav-cta:hover { background: var(--color-purple); }
+
+  .nav-burger { display: none; flex-direction: column; gap: 5px; padding: 8px; }
+  .nav-burger span { width: 24px; height: 2px; background: var(--color-white); }
+  .nav-overlay {
+    position: fixed; inset: 0; background: var(--color-bg);
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 28px; z-index: 49;
+  }
+  .nav-overlay.is-open { display: flex; }
+  .nav-overlay-link { font-family: var(--font-display); font-weight: 800; font-size: 32px; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+  }
+</style>
+
+<script>
+  const burger = document.querySelector("[data-burger]");
+  const overlay = document.querySelector("[data-overlay]");
+  burger?.addEventListener("click", () => {
+    const open = overlay?.classList.toggle("is-open");
+    burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+  overlay?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => overlay.classList.remove("is-open"))
+  );
+</script>

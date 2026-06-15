@@ -1,0 +1,40 @@
+---
+// Section 06 — Capabilities. Clean list, CAP IDs, underline hover.
+import { CAPABILITIES } from "../data/site.js";
+---
+<section class="section capabilities">
+  <div class="wrap">
+    <div class="section-label">Capabilities</div>
+    <p class="lead caps-intro" data-reveal>
+      Built to move from concept through execution with clarity.
+    </p>
+    <ul class="caps-list" data-reveal>
+      {CAPABILITIES.map((cap, i) => (
+        <li class="caps-row">
+          <span class="caps-name">{cap}</span>
+          <span class="caps-id mono mission-id">CAP-{String(i + 1).padStart(2, "0")}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .caps-intro { max-width: 520px; margin-bottom: var(--space-lg); }
+  .caps-list { border-top: 1px solid var(--color-gray); }
+  .caps-row {
+    position: relative;
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 22px 0; border-bottom: 1px solid var(--color-gray);
+  }
+  .caps-name {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(20px, 3vw, 32px); position: relative;
+  }
+  .caps-name::after {
+    content: ""; position: absolute; left: 0; bottom: -4px; height: 2px; width: 0;
+    background: var(--color-purple); transition: width var(--dur-fast) var(--ease-out);
+  }
+  .caps-row:hover .caps-name::after { width: 100%; }
+  .caps-row:hover .caps-name { color: var(--color-white); }
+</style>

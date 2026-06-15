@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { PROJECTS, FILTERS } from "../../data/site.js";
+
+// map card categories to filter buckets
+const bucket = (cat) => ({
+  "Commercial": "Commercials",
+  "Music Video": "Music Videos",
+  "Branded Content": "Branded Content",
+  "Brand Campaign": "Branded Content",
+  "Editorial": "Editorial",
+  "Docu": "Docu",
+}[cat] || "All");
+---
+<Base current="/work" title="Selected Missions — Spacedog">
+  <section class="section work-hero">
+    <div class="hud-corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+    <div class="wrap">
+      <span class="mono mission-id" data-reveal>SPCDG / ARCHIVE / SYS-04</span>
+      <h1 class="display" data-reveal data-delay="0.05">Selected Missions</h1>
+      <div class="work-filters" data-reveal data-delay="0.1">
+        {FILTERS.map((f) => (
+          <button class={`filter mono ${f === "All" ? "is-active" : ""}`} data-filter={f}>{f}</button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section work-grid-section">
+    <div class="wrap">
+      <div class="work-grid">
+        {PROJECTS.map((p, i) => (
+          <div class="work-cell" data-bucket={bucket(p.category)}>
+            <ProjectCard project={p} index={i} showDescriptor={false} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .work-hero { padding-top: calc(var(--nav-h) + var(--space-lg)); padding-bottom: var(--space-md); }
+  .work-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--space-md); }
+  .filter {
+    border: 1px solid var(--color-gray); padding: 8px 16px; color: var(--color-offwhite);
+    transition: all var(--dur-fast) var(--ease-out);
+  }
+  .filter.is-active, .filter:hover { border-color: var(--color-purple); color: var(--color-white); background: rgba(107,79,187,0.15); }
+  .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+  .work-cell { transition: opacity var(--dur-fast) var(--ease-out); }
+  .work-cell.is-hidden { display: none; }
+  @media (max-width: 900px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .work-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const filters = document.querySelectorAll("[data-filter]");
+  const cells = document.querySelectorAll(".work-cell");
+  filters.forEach((btn) =>
+    btn.addEventListener("click", () => {
+      filters.forEach((b) => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      const f = btn.dataset.filter;
+      cells.forEach((c) =>
+        c.classList.toggle("is-hidden", !(f === "All" || c.dataset.bucket === f))
+      );
+    })
+  );
+</script>

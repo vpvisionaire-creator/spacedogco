@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+import { CLIENTS } from "../data/site.js";
+---
+<Base current="/about" title="We Are Spacedog.">
+  <section class="section about-hero">
+    <div class="hud-corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+    <div class="wrap">
+      <span class="mono mission-id" data-reveal>SPCDG / IDENTITY / SYS-06</span>
+      <h1 class="display about-h1" data-reveal data-delay="0.05">We Are Spacedog.</h1>
+    </div>
+  </section>
+
+  <section class="section about-body">
+    <div class="wrap about-manifesto">
+      <p class="lead" data-reveal>
+        A NYC creative production agency. We build culture-shaping work across
+        branding, campaigns, commercials, music videos, and more — one tool, a lot
+        of ground covered.
+      </p>
+      <p class="lead" data-reveal data-delay="0.05">
+        We move fast without losing clarity. We scale ideas, shape productions, and
+        bring creative to life without overcomplicating the process.
+      </p>
+    </div>
+
+    <div class="wrap about-cols">
+      <div class="about-col" data-reveal>
+        <span class="mono mission-id">01 / Our Mindset</span>
+        <h2 class="display">Range without chaos.</h2>
+        <p>We cover a lot of ground. It never feels scattered — it feels like one tool.</p>
+      </div>
+      <div class="about-col" data-reveal data-delay="0.05">
+        <span class="mono mission-id">02 / Ethos Over Ego</span>
+        <h2 class="display">The work speaks.</h2>
+        <p>The clients are real. The execution is at the highest level. We let that carry the room.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-clients">
+    <div class="wrap">
+      <div class="section-label">Trusted By</div>
+      <ul class="about-logos" data-reveal>
+        {CLIENTS.map((c) => <li data-placeholder-logo>{c}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-hero { padding-top: calc(var(--nav-h) + var(--space-2xl)); }
+  .about-h1 { margin-top: 14px; }
+  .about-manifesto { max-width: 760px; display: flex; flex-direction: column; gap: var(--space-md); margin-bottom: var(--space-2xl); }
+  .about-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
+  .about-col h2 { font-size: clamp(24px, 3vw, 40px); margin: 12px 0; }
+  .about-col p { color: var(--color-offwhite); }
+  .about-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg) var(--space-md); }
+  .about-logos li { font-family: var(--font-display); font-weight: 700; font-size: 20px; text-align: center; opacity: 0.85; }
+  @media (max-width: 760px) { .about-cols { grid-template-columns: 1fr; gap: var(--space-lg); } .about-logos { grid-template-columns: repeat(2,1fr); } }
+</style>

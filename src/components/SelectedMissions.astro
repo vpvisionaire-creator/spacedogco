@@ -1,0 +1,31 @@
+---
+// Section 04 — Selected Missions (curated, not a dump).
+import { PROJECTS } from "../data/site.js";
+import ProjectCard from "./ProjectCard.astro";
+const featured = ["greedy-unit","af1","trenches","hypebeast","barriers","nina-chanel"]
+  .map((id) => PROJECTS.find((p) => p.id === id))
+  .filter(Boolean);
+---
+<section class="section missions">
+  <div class="wrap">
+    <div class="section-label">Selected Missions</div>
+    <p class="lead missions-intro" data-reveal>
+      A look at how Spacedog moves across formats, industries, and worlds.
+    </p>
+    <div class="missions-grid">
+      {featured.map((p, i) => <ProjectCard project={p} index={i} />)}
+    </div>
+    <a href="/work" class="missions-all mono mission-id" data-reveal>View all missions →</a>
+  </div>
+</section>
+
+<style>
+  .missions-intro { max-width: 520px; margin-bottom: var(--space-lg); }
+  .missions-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md) var(--space-md);
+  }
+  .missions-all { display: inline-block; margin-top: var(--space-lg); }
+  .missions-all:hover { color: var(--color-purple-dk); }
+  @media (max-width: 900px) { .missions-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .missions-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,26 @@
+---
+// Section 08 — Final CTA. Bookend to the hero.
+---
+<section class="section final-cta">
+  <div class="hud-corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+  <span class="hud-coord top mono">SPCDG / MISSION-END</span>
+  <span class="hud-coord top-right mono">RE-ENTRY / OPEN</span>
+
+  <div class="wrap cta-content">
+    <h2 class="display cta-head" data-reveal>If the mission matters,<br/>let's talk.</h2>
+    <a href="/contact" class="btn btn--solid cta-btn" data-reveal data-delay="0.15">Start a Project</a>
+    <a href="mailto:hello@spacedog.co" class="cta-email mono" data-reveal data-delay="0.2">hello@spacedog.co</a>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    padding-block: var(--space-2xl);
+  }
+  .cta-content { display: flex; flex-direction: column; align-items: center; gap: var(--space-md); }
+  .cta-head { font-size: clamp(36px, 7vw, 96px); }
+  .cta-email { color: var(--color-offwhite); }
+  .cta-email:hover { color: var(--color-purple); }
+</style>
