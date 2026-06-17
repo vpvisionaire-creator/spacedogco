@@ -43,8 +43,26 @@ The display stack falls back to Arial Black until you license the real face. To 
 ```
 Courier New (mono) is a system font — no file needed.
 
-## 7. The knife
-The knife is **native SVG** in `src/components/SwissKnife.astro` — no external asset. To replace with the final illustrator artwork:
-- Export each blade as a separate `<g id="blade-…">` group.
-- Keep the `data-blade`, `data-angle`, and `transform-origin` (hinge) attributes — GSAP keys off them.
-- The dog mark group is `.dog-mark` (it pulses on deploy).
+## 7. The knife (real artwork)
+The knife is now the **real `SPCDG_Knife (outlined).ai`** artwork, split into layers in
+`/public/media/knife/`:
+`handle.png` + 8 blades (`branding, social, campaigns, commercials, music, editorial,
+docu, interview`). Geometry is in `src/data/knife_layout.json`.
+
+To replace with updated artwork:
+1. Re-export each blade + the handle as transparent PNGs at the same filenames.
+2. If positions/hinges change, regenerate `knife_layout.json` (per-layer `left_pct`,
+   `top_pct`, `w_pct`, `origin_x_pct`, `origin_y_pct`, and each blade's `open` angle).
+3. The handle must render on top (it hides the hinge overlap and pulses on deploy).
+
+To re-tune how blades fold when closed, edit `closedDelta` / `foldAxis` in `src/scripts/motion.js`.
+
+## 8. Brand logos
+Real assets in `/public/media/brand/`:
+- `symbol.png` — SPCDG dog-in-helmet mark (used in nav, hero, favicon, identity page)
+- `full-logo.png` — full lockup (identity page)
+
+**Wordmark note:** the uploaded `SPACEDOG_word_mark.png` / `_abbrv.png` files were blank
+(all-black, no content), so the wordmark renders as styled text ("SPACEDOG" / "SPCDG") in
+the brand display font. Re-export those PNGs with visible white art and drop them in to use
+the real lockup; then swap the text in `Nav.astro` / `Footer.astro` for an `<img>`.

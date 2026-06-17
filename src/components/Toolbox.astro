@@ -1,0 +1,81 @@
+---
+// Toolbox.astro — realistic red mission toolbox.
+// Reusable: hero shows it closed (clickable cue); Toolkit section reuses
+// the open variant. `open` prop swaps the lid state.
+const { open = false, id = "" } = Astro.props;
+---
+<div class={`toolbox ${open ? "is-open" : ""}`} id={id} data-toolbox-svg>
+  <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="tbBody" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#d23b30"/>
+        <stop offset="45%" stop-color="#b3261e"/>
+        <stop offset="100%" stop-color="#7e1812"/>
+      </linearGradient>
+      <linearGradient id="tbLid" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e0473b"/>
+        <stop offset="100%" stop-color="#b3261e"/>
+      </linearGradient>
+      <linearGradient id="tbInner" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a1714"/>
+        <stop offset="100%" stop-color="#0a0908"/>
+      </linearGradient>
+      <linearGradient id="tbSteel" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c9c7c2"/>
+        <stop offset="100%" stop-color="#8a8984"/>
+      </linearGradient>
+      <filter id="tbShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.55"/>
+      </filter>
+    </defs>
+
+    <!-- ground shadow -->
+    <ellipse cx="160" cy="226" rx="120" ry="12" fill="#000" opacity="0.45"/>
+
+    <!-- open interior (revealed when lid lifts) -->
+    <g class="tb-interior">
+      <rect x="44" y="92" width="232" height="40" rx="4" fill="url(#tbInner)"/>
+      <rect x="52" y="98" width="216" height="6" rx="3" fill="#6B4FBB" opacity="0.5"/>
+    </g>
+
+    <!-- body / base -->
+    <g filter="url(#tbShadow)">
+      <rect x="40" y="120" width="240" height="96" rx="8" fill="url(#tbBody)" stroke="#5e1009" stroke-width="2"/>
+      <!-- latch -->
+      <rect x="146" y="150" width="28" height="22" rx="3" fill="url(#tbSteel)" stroke="#3a3a36" stroke-width="1.5"/>
+      <rect x="150" y="156" width="20" height="4" rx="2" fill="#2A2926"/>
+      <!-- corner rivets -->
+      <circle cx="56" cy="206" r="3" fill="#5e1009"/>
+      <circle cx="264" cy="206" r="3" fill="#5e1009"/>
+      <!-- side ribs -->
+      <rect x="40" y="178" width="240" height="3" fill="#5e1009" opacity="0.6"/>
+    </g>
+
+    <!-- lid (rotates open) -->
+    <g class="tb-lid">
+      <rect x="40" y="78" width="240" height="48" rx="8" fill="url(#tbLid)" stroke="#5e1009" stroke-width="2"/>
+      <!-- handle -->
+      <rect x="120" y="60" width="80" height="12" rx="6" fill="none" stroke="url(#tbSteel)" stroke-width="8"/>
+      <!-- vent lines -->
+      <g stroke="#5e1009" stroke-width="2" opacity="0.5">
+        <line x1="70" y1="100" x2="120" y2="100"/>
+        <line x1="200" y1="100" x2="250" y2="100"/>
+      </g>
+      <!-- SPCDG stencil -->
+      <text x="160" y="105" text-anchor="middle" font-family="Courier New, monospace"
+            font-size="13" letter-spacing="3" fill="#f2f0ec" opacity="0.85">SPCDG</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .toolbox { width: 100%; max-width: 320px; }
+  .toolbox svg { width: 100%; height: auto; overflow: visible; }
+  .tb-lid { transform-box: fill-box; transform-origin: left bottom; transition: transform var(--dur-slow) var(--ease-out); }
+  .tb-interior { opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
+  .toolbox.is-open .tb-lid { transform: rotate(-108deg) translateY(-6px); }
+  .toolbox.is-open .tb-interior { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .tb-lid { transition: none; }
+  }
+</style>

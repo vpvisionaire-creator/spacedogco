@@ -4,7 +4,10 @@ const { current = "" } = Astro.props;
 ---
 <nav class="nav" data-nav>
   <div class="nav-inner wrap">
-    <a class="nav-mark" href="/">SPACEDOG</a>
+    <a class="nav-mark" href="/" aria-label="Spacedog home">
+      <img src="/media/brand/symbol.png" alt="Spacedog" class="nav-symbol" width="30" height="33" />
+      <span>SPACEDOG</span>
+    </a>
     <div class="nav-links">
       {NAV.map((item) => (
         <a href={item.href}
@@ -37,9 +40,11 @@ const { current = "" } = Astro.props;
     height: var(--nav-h); padding-inline: var(--gutter);
   }
   .nav-mark {
+    display: flex; align-items: center; gap: 10px;
     font-family: var(--font-display); font-weight: 800;
     font-size: 16px; letter-spacing: 0.04em;
   }
+  .nav-symbol { height: 30px; width: auto; }
   .nav-links { display: flex; align-items: center; gap: 28px; }
   .nav-link {
     font-family: var(--font-mono); font-size: 12px;

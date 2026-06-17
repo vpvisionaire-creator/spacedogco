@@ -1,0 +1,93 @@
+{
+ "canvas": {
+  "w": 5012,
+  "h": 3602,
+  "aspect": 1.3914
+ },
+ "hinge": {
+  "x": 2540,
+  "y": 1815
+ },
+ "layers": {
+  "branding": {
+   "left_pct": 23.304,
+   "top_pct": 2.915,
+   "w_pct": 23.903,
+   "h_pct": 37.146,
+   "origin_x_pct": 114.52,
+   "origin_y_pct": 127.8,
+   "open": -133
+  },
+  "social": {
+   "left_pct": 47.207,
+   "top_pct": 0.0,
+   "w_pct": 8.041,
+   "h_pct": 40.394,
+   "origin_x_pct": 43.18,
+   "origin_y_pct": 124.74,
+   "open": -93
+  },
+  "campaigns": {
+   "left_pct": 53.093,
+   "top_pct": 3.109,
+   "w_pct": 23.763,
+   "h_pct": 37.118,
+   "origin_x_pct": -10.16,
+   "origin_y_pct": 127.37,
+   "open": -51
+  },
+  "commercials": {
+   "left_pct": 63.647,
+   "top_pct": 36.563,
+   "w_pct": 36.353,
+   "h_pct": 24.542,
+   "origin_x_pct": -35.68,
+   "origin_y_pct": 56.33,
+   "open": -2
+  },
+  "music": {
+   "left_pct": 53.352,
+   "top_pct": 60.3,
+   "w_pct": 19.553,
+   "h_pct": 33.815,
+   "origin_x_pct": -13.67,
+   "origin_y_pct": -29.31,
+   "open": 46
+  },
+  "editorial": {
+   "left_pct": 45.93,
+   "top_pct": 60.55,
+   "w_pct": 8.659,
+   "h_pct": 39.45,
+   "origin_x_pct": 54.84,
+   "origin_y_pct": -25.76,
+   "open": 91
+  },
+  "docu": {
+   "left_pct": 22.426,
+   "top_pct": 59.689,
+   "w_pct": 25.319,
+   "h_pct": 33.842,
+   "origin_x_pct": 111.58,
+   "origin_y_pct": -27.48,
+   "open": 135
+  },
+  "interview": {
+   "left_pct": 0.0,
+   "top_pct": 35.314,
+   "w_pct": 37.789,
+   "h_pct": 24.986,
+   "origin_x_pct": 134.11,
+   "origin_y_pct": 60.33,
+   "open": 180
+  },
+  "handle": {
+   "left_pct": 26.756,
+   "top_pct": 39.617,
+   "w_pct": 46.468,
+   "h_pct": 21.71,
+   "origin_x_pct": 51.48,
+   "origin_y_pct": 49.62
+  }
+ }
+}

@@ -1,8 +1,9 @@
 ---
 // Section 03 — Toolkit. SIGNATURE MOMENT. Pinned + scrubbed by GSAP.
-// Phase 1: toolbox + scattered chaos tags. Phase 2: knife appears.
-// Phase 3: blades deploy one by one. Then headline.
+// Phase 1: toolbox opens, capability chaos scatters. Phase 2: knife centers.
+// Phase 3: real blades deploy from the hinge, labels + handle pulse.
 import SwissKnife from "./SwissKnife.astro";
+import Toolbox from "./Toolbox.astro";
 const CHAOS = [
   "Branding", "Commercials", "Music Videos", "Editorial", "Docu",
   "Social", "Campaigns", "Photography", "Live", "Interviews",
@@ -11,20 +12,16 @@ const CHAOS = [
 ---
 <section class="toolkit" id="toolkit-section">
   <div class="hud-corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+  <span class="hud-coord top mono">SPCDG / TOOLKIT / DEPLOY SEQUENCE</span>
 
   <div class="toolkit-stage wrap">
-    <!-- Phase 1: the problem — creative chaos -->
+    <!-- Phase 1: the problem — creative chaos pouring out of the toolbox -->
     <div class="chaos" data-chaos aria-hidden="true">
       {CHAOS.map((c) => <span class="chaos-tag mono" data-chaos-tag>{c}</span>)}
     </div>
-    <div class="toolbox" data-toolbox aria-hidden="true">
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <rect x="10" y="44" width="140" height="66" rx="5" fill="#b3261e" stroke="#0A0908" stroke-width="3"/>
-        <rect x="10" y="44" width="140" height="16" fill="#8e1d17"/>
-        <path d="M54 44 v-12 a6 6 0 0 1 6 -6 h40 a6 6 0 0 1 6 6 v12" fill="none" stroke="#b3261e" stroke-width="8"/>
-        <rect x="70" y="66" width="20" height="10" rx="2" fill="#0A0908"/>
-      </svg>
-      <span class="mono">PROBLEM / MANY NEEDS</span>
+    <div class="toolbox-holder" data-toolbox>
+      <Toolbox open={true} />
+      <span class="mono toolbox-cap">PROBLEM / MANY NEEDS</span>
     </div>
 
     <!-- Phase 2 + 3: the solution -->
@@ -44,25 +41,25 @@ const CHAOS = [
     padding: var(--space-lg) var(--gutter);
     overflow: hidden;
   }
-  .toolkit-stage { position: relative; display: grid; place-items: center; width: 100%; }
+  .toolkit-stage { position: relative; display: grid; place-items: center; width: 100%; min-height: 70vh; }
 
   .chaos {
     position: absolute; inset: 0; z-index: 1;
     display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-    gap: 14px 22px; padding: 8%; pointer-events: none;
+    gap: 14px 22px; padding: 6%; pointer-events: none;
   }
   .chaos-tag {
-    color: var(--color-offwhite); font-size: 13px; opacity: 0;
-    border: 1px solid var(--color-gray); padding: 6px 12px;
+    color: var(--color-offwhite); font-size: 13px; visibility: hidden;
+    border: 1px solid var(--color-gray); padding: 6px 12px; background: rgba(10,9,8,0.6);
   }
-  .toolbox {
+  .toolbox-holder {
     position: absolute; z-index: 2; display: flex; flex-direction: column;
-    align-items: center; gap: 10px; opacity: 0;
+    align-items: center; gap: 12px; visibility: hidden; max-width: 300px;
   }
-  .toolbox .mono { color: var(--color-purple); }
+  .toolbox-cap { color: var(--color-purple); }
 
   .toolkit-headline {
-    position: relative; z-index: 4; text-align: center; margin-top: var(--space-lg);
+    position: relative; z-index: 6; text-align: center; margin-top: var(--space-lg);
     opacity: 0; max-width: 900px;
   }
   .toolkit-headline h2 { margin-bottom: 12px; }

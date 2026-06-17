@@ -52,6 +52,17 @@ function initHero() {
   // Scroll hint fades after 3s
   const hint = hero.querySelector("[data-scroll-hint]");
   if (hint) gsap.to(hint, { opacity: 0, delay: 3, duration: 0.8 });
+
+  // Toolbox = the trigger. Click smoothly scrolls into the pinned deploy section.
+  const triggers = document.querySelectorAll("[data-toolbox-trigger]");
+  const target = document.querySelector("#toolkit-section");
+  triggers.forEach((t) =>
+    t.addEventListener("click", () => {
+      if (!target) return;
+      const top = target.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + 2, behavior: REDUCED ? "auto" : "smooth" });
+    })
+  );
 }
 
 /* ---------- 3. THE KNIFE — signature pinned deployment ---------- */
@@ -69,19 +80,30 @@ function initKnife() {
   const toolbox = section.querySelector("[data-toolbox]");
   const chaos   = section.querySelector("[data-chaos]");
   const headline = section.querySelector("[data-knife-headline]");
-  const dogMark = knife.querySelector(".dog-mark");
+  const handle = knife.querySelector(".knife-handle");
 
-  // Open angles come from the data attribute set in markup (rotation target).
-  const angleFor = (el) => parseFloat(el.dataset.angle || 0);
+  // Each blade is rendered OPEN in the artwork. "open" attr = its natural angle.
+  // CLOSED = folded into the handle: the back tool (interview) folds to the 180°
+  // axis, every other blade folds to the 0° axis (tucked right into the handle).
+  // We normalize the delta to the short way around so blades fold naturally.
+  const openAngle = (el) => parseFloat(el.dataset.open || 0);
+  const foldAxis  = (el) => (el.dataset.blade === "interview" ? 180 : 0);
+  const closedDelta = (el) => {
+    let d = foldAxis(el) - openAngle(el);
+    while (d > 180) d -= 360;
+    while (d < -180) d += 360;
+    return d;
+  };
 
-  // ---- Reduced motion: no pin, just reveal the finished knife ----
+  // ---- Reduced motion: no pin, show finished knife ----
   if (REDUCED) {
     section.style.minHeight = "100vh";
-    blades.forEach((b) => gsap.set(b, { opacity: 1, scale: 1, rotate: angleFor(b) }));
+    gsap.set(knife, { opacity: 1, scale: 1 });
+    gsap.set(blades, { opacity: 1, rotate: 0 });
     gsap.set(labels, { opacity: 1 });
     labels.forEach((l) => l.classList.add("is-in"));
-    if (toolbox) gsap.set(toolbox, { opacity: 0, display: "none" });
-    if (chaos) gsap.set(chaos, { opacity: 0, display: "none" });
+    if (toolbox) gsap.set(toolbox, { autoAlpha: 0, display: "none" });
+    if (chaos) gsap.set(chaos, { autoAlpha: 0, display: "none" });
     if (headline) gsap.to(headline, {
       opacity: 1, duration: 0.5,
       scrollTrigger: { trigger: headline, start: "top 85%" },
@@ -89,10 +111,10 @@ function initKnife() {
     return;
   }
 
-  // ---- Full experience: pin + scrub timeline ----
-  // initial states
-  gsap.set(knife, { opacity: 0, scale: 0.92 });
-  gsap.set(blades, { opacity: 0, scale: 0.04, rotate: 0 });
+  // ---- Full experience ----
+  // initial: knife hidden, blades folded closed + invisible
+  gsap.set(knife, { opacity: 0, scale: 0.9 });
+  gsap.set(blades, { opacity: 0, rotate: (i) => closedDelta(blades[i]), scale: 0.92 });
   gsap.set(labels, { opacity: 0, y: 6 });
   if (headline) gsap.set(headline, { opacity: 0, y: 20 });
 
@@ -100,46 +122,57 @@ function initKnife() {
     scrollTrigger: {
       trigger: section,
       start: "top top",
-      end: "+=280%",
+      end: "+=300%",
       pin: true,
       scrub: 1,
       anticipatePin: 1,
     },
   });
 
-  // PHASE 1 (0–25%): toolbox + chaos visible, then fades
-  if (toolbox) tl.to(toolbox, { opacity: 1, scale: 1, duration: 0.5 }, 0);
+  // PHASE 1 (problem): toolbox opens, chaos tags scatter, then fade
+  if (toolbox) {
+    tl.to(toolbox, { autoAlpha: 1, scale: 1, duration: 0.4 }, 0);
+    tl.to(toolbox, { className: "+=is-open", duration: 0.01 }, 0.35);
+  }
   if (chaos) {
     const tags = chaos.querySelectorAll("[data-chaos-tag]");
     tl.fromTo(tags,
-      { opacity: 0, scale: 0.6, rotate: () => gsap.utils.random(-25, 25) },
-      { opacity: 1, scale: 1, duration: 0.4, stagger: 0.04 }, 0.1);
-    tl.to([toolbox, chaos], { opacity: 0, duration: 0.5 }, 0.9);
+      { autoAlpha: 0, scale: 0.6, rotate: () => gsap.utils.random(-25, 25), x: 0, y: 0 },
+      { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.03 }, 0.15);
+    tl.to(tags, { autoAlpha: 0, scale: 0.4, duration: 0.4, stagger: 0.02 }, 0.85);
+    tl.to(toolbox, { autoAlpha: 0, duration: 0.4 }, 0.9);
   }
 
-  // PHASE 2 (25–40%): the knife appears, centered, calm
+  // PHASE 2 (solution): knife fades to center, closed
   tl.to(knife, { opacity: 1, scale: 1, duration: 0.5 }, 1.0);
 
-  // PHASE 3 (40–100%): deploy each blade + its label, dog mark pulses
+  // PHASE 3 (deploy): each blade rotates closed→open, label reveals,
+  // handle (with dog mark) pulses on each deploy.
   blades.forEach((blade, i) => {
-    const at = 1.5 + i * 0.5;          // stagger along the scrubbed timeline
+    const at = 1.5 + i * 0.45;
     tl.to(blade, {
-      opacity: 1, scale: 1, rotate: angleFor(blade),
+      opacity: 1, rotate: 0, scale: 1,
       duration: 0.4, ease: "power3.out",
       onStart: () => blade.classList.add("is-active"),
+      onComplete: () => blade.classList.remove("is-active"),
       onReverseComplete: () => blade.classList.remove("is-active"),
-    }, at)
-      .to(labels[i], { opacity: 1, y: 0, duration: 0.3,
-        onStart: () => labels[i] && labels[i].classList.add("is-in"),
-      }, at + 0.05)
-      // dog mark pulse on each deploy
-      .to(dogMark, { scale: 1.12, duration: 0.12, transformOrigin: "510px 300px" }, at)
-      .to(dogMark, { scale: 1.0, duration: 0.18 }, at + 0.12);
+    }, at);
+    if (labels[i]) {
+      tl.to(labels[i], {
+        opacity: 1, y: 0, duration: 0.3,
+        onStart: () => labels[i].classList.add("is-in"),
+        onReverseComplete: () => labels[i].classList.remove("is-in"),
+      }, at + 0.05);
+    }
+    if (handle) {
+      tl.to(handle, { scale: 1.06, duration: 0.1, ease: "power2.out" }, at)
+        .to(handle, { scale: 1.0, duration: 0.18, ease: "power2.inOut" }, at + 0.1);
+    }
   });
 
   // Headline after full deployment
   if (headline) {
-    tl.to(headline, { opacity: 1, y: 0, duration: 0.5 }, 1.5 + blades.length * 0.5 + 0.2);
+    tl.to(headline, { opacity: 1, y: 0, duration: 0.5 }, 1.5 + blades.length * 0.45 + 0.2);
   }
 }
 

@@ -1,0 +1,120 @@
+---
+import Base from "../layouts/Base.astro";
+
+const COLORS = [
+  { name: "Background", hex: "#0A0908", token: "--color-bg" },
+  { name: "White",      hex: "#FFFFFF", token: "--color-white" },
+  { name: "Off-white",  hex: "#F2F0EC", token: "--color-offwhite" },
+  { name: "Purple",     hex: "#6B4FBB", token: "--color-purple" },
+  { name: "Purple Dk",  hex: "#4A3485", token: "--color-purple-dk" },
+  { name: "Gray",       hex: "#2A2926", token: "--color-gray" },
+];
+---
+<Base current="/identity" title="Brand Identity — Spacedog">
+  <section class="section id-hero">
+    <div class="hud-corners"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+    <div class="wrap">
+      <span class="mono mission-id" data-reveal>SPCDG / IDENTITY SYSTEM / SYS-00</span>
+      <h1 class="display id-h1" data-reveal data-delay="0.05">Brand Identity.</h1>
+      <p class="lead id-intro" data-reveal data-delay="0.1">
+        The Spacedog system. One mark, one palette, one voice — used consistently
+        across every surface.
+      </p>
+    </div>
+  </section>
+
+  <!-- Logo system -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">The Mark</div>
+      <div class="id-logos">
+        <div class="id-logo" data-reveal>
+          <div class="id-logo-frame"><img src="/media/brand/symbol.png" alt="Spacedog symbol" /></div>
+          <span class="mono">SYMBOL / SPCDG</span>
+        </div>
+        <div class="id-logo" data-reveal data-delay="0.05">
+          <div class="id-logo-frame"><img src="/media/brand/full-logo.png" alt="Spacedog full logo" /></div>
+          <span class="mono">FULL LOGO</span>
+        </div>
+        <div class="id-logo id-logo--light" data-reveal data-delay="0.1">
+          <div class="id-logo-frame id-logo-frame--light"><img src="/media/brand/symbol.png" alt="Spacedog symbol on light" /></div>
+          <span class="mono">SYMBOL / INVERSE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Color -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">Color</div>
+      <div class="id-colors" data-reveal>
+        {COLORS.map((c) => (
+          <div class="id-swatch">
+            <div class="id-chip" style={`background:${c.hex}; ${c.hex === "#0A0908" ? "border:1px solid var(--color-gray)" : ""}`}></div>
+            <span class="id-chip-name">{c.name}</span>
+            <span class="mono id-chip-hex">{c.hex}</span>
+            <span class="mono id-chip-token">{c.token}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Type -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">Typography</div>
+      <div class="id-type" data-reveal>
+        <div class="id-type-row">
+          <span class="mono id-type-label">Display — Monument Extended / heavy grotesque</span>
+          <span class="display id-type-sample">The Swiss Army knife of the creative space.</span>
+        </div>
+        <div class="id-type-row">
+          <span class="mono id-type-label">Mono — Courier New / mission labels</span>
+          <span class="mono id-type-sample-mono">SPCDG / CAP-01 / LAT 40.7128° N / LON 74.0060° W</span>
+        </div>
+        <div class="id-type-row">
+          <span class="mono id-type-label">Body — grotesque regular</span>
+          <span class="lead">One toolkit. A lot of ground covered. Built to move across disciplines without losing clarity.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .id-hero { padding-top: calc(var(--nav-h) + var(--space-xl)); }
+  .id-h1 { margin: 14px 0 var(--space-md); }
+  .id-intro { max-width: 640px; }
+
+  .id-logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+  .id-logo { display: flex; flex-direction: column; gap: 12px; }
+  .id-logo-frame {
+    aspect-ratio: 1; border: 1px solid var(--color-gray); display: grid; place-items: center;
+    padding: var(--space-lg); background: var(--color-bg);
+  }
+  .id-logo-frame--light { background: var(--color-offwhite); }
+  .id-logo-frame--light img { filter: invert(1); }
+  .id-logo-frame img { max-height: 180px; width: auto; }
+
+  .id-colors { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+  .id-swatch { display: flex; flex-direction: column; gap: 6px; }
+  .id-chip { aspect-ratio: 16/9; border-radius: 2px; }
+  .id-chip-name { font-weight: 600; }
+  .id-chip-hex { color: var(--color-offwhite); }
+  .id-chip-token { color: var(--color-gray); }
+
+  .id-type { display: flex; flex-direction: column; gap: var(--space-lg); }
+  .id-type-row { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--color-gray); padding-top: var(--space-md); }
+  .id-type-label { color: var(--color-purple); }
+  .id-type-sample { font-size: clamp(24px, 4vw, 48px); line-height: 1; }
+  .id-type-sample-mono { font-size: clamp(14px, 2vw, 20px); color: var(--color-offwhite); }
+
+  @media (max-width: 760px) {
+    .id-logos, .id-colors { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .id-logos, .id-colors { grid-template-columns: 1fr; }
+  }
+</style>

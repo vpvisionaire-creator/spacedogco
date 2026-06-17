@@ -35,12 +35,13 @@ spacedog/
    ├─ scripts/motion.js    # GSAP master: reveals, hero, KNIFE, parallax, nav
    ├─ layouts/Base.astro   # head/SEO, Nav, Footer, loads motion.js
    ├─ components/
-   │  ├─ Nav.astro            # transparent → solid on scroll, mobile overlay
+   │  ├─ Nav.astro            # transparent → solid on scroll, mobile overlay, real symbol mark
    │  ├─ Footer.astro
-   │  ├─ Hero.astro           # §01 cinematic opening + red toolbox cue
+   │  ├─ Hero.astro           # §01 space-station bay + realistic red toolbox trigger
+   │  ├─ Toolbox.astro        # realistic red toolbox SVG (lid/latch/handle/stencil), open variant
    │  ├─ BrandStatement.astro # §02 pure type
    │  ├─ Toolkit.astro        # §03 SIGNATURE — pinned, toolbox→chaos→knife
-   │  ├─ SwissKnife.astro     # the layered SVG knife (8 blades + dog mark + HUD)
+   │  ├─ SwissKnife.astro     # real layered knife (8 blade PNGs + handle + HUD rings/labels)
    │  ├─ SelectedMissions.astro # §04 curated cards
    │  ├─ ProjectCard.astro
    │  ├─ Explorers.astro      # §05 philosophy + parallax
@@ -52,25 +53,35 @@ spacedog/
       ├─ work/index.astro     # Selected Missions + filters
       ├─ work/[id].astro      # individual project (static-generated per project)
       ├─ about.astro          # "We Are Spacedog."
+      ├─ identity.astro       # Brand Identity: logo system + color tokens + type
       └─ contact.astro        # "Start a Mission." + Netlify form
 ```
 
 ---
 
 ## The signature knife section (how it works)
-`Toolkit.astro` is pinned by ScrollTrigger over ~280% scroll. A single scrubbed
+`Toolkit.astro` is pinned by ScrollTrigger over ~300% scroll. A single scrubbed
 GSAP timeline drives three phases:
 
-1. **Problem** — toolbox + scattered capability tags fade in (creative chaos), then out.
-2. **Solution** — one knife fades to center.
-3. **Deploy** — each blade rotates from its hinge to its `data-angle`, its HUD label
-   reveals in sync, and the dog mark pulses. Purple glow on the active blade.
-   After all 8 deploy, the headline reveals.
+1. **Problem** — the red toolbox opens and capability tags scatter (creative chaos), then fade.
+2. **Solution** — one knife fades to center, closed.
+3. **Deploy** — each real blade rotates from its hinge (closed→open), its HUD label
+   reveals in sync, and the handle (with the SPCDG dog mark) pulses. Purple drop-shadow
+   glow on the active blade. After all 8 deploy, the headline reveals.
 
-Geometry: every blade is drawn **closed** (folded right along the handle axis) and
-rotated open by `data-angle` about its `transform-origin` hinge — right cluster at
-`620,300`, the back "Interview" tool at `380,300`. To swap in final illustrator art,
-keep those three attributes per blade group (see ASSETS.md §7).
+**The artwork is real.** The knife is the actual `SPCDG_Knife (outlined).ai` file. Its
+"SPCDG Knife" Illustrator layer was isolated and split into 8 transparent blade PNGs +
+the handle, in `/public/media/knife/`. Exact geometry lives in `src/data/knife_layout.json`
+(per-layer position %, the hinge, the transform-origin, and each blade's open angle).
+
+Fold logic: every blade is rendered OPEN; `motion.js` computes a `closedDelta` to fold it
+into the handle (the back "interview" tool folds to the 180° axis, all others to 0°,
+normalized the short way). To re-tune resting angles, edit `closedDelta`/`foldAxis` in
+`motion.js`. To replace artwork, re-export each layer to the same filename and update
+`knife_layout.json`.
+
+The hero's red toolbox (`Toolbox.astro`, realistic SVG with lid/latch/handle/stencil)
+is the trigger: clicking it smooth-scrolls into the pinned section to start the sequence.
 
 **Reduced motion:** `prefers-reduced-motion` disables the pin and all transforms —
 the knife renders fully deployed and everything else fades only.

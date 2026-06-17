@@ -7,6 +7,7 @@
 export const NAV = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
+  { label: "Identity", href: "/identity" },
   { label: "Contact", href: "/contact" },
 ];
 
